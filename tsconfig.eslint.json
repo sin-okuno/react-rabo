@@ -1,0 +1,24 @@
+{
+    "extends": "./tsconfig.json",
+    "include": [
+      "src/*.tsx",
+      "src/*.ts",
+      "src/api/*.ts",
+      "src/components/atom/*.tsx",
+      "src/components/molecule/*.tsx",
+      "src/components/organisum/*.tsx",
+      "src/components/page/*.tsx",
+      "src/components/page/pmp/*.tsx",
+      "src/components/template/*.tsx",
+      "src/redux/*.ts",
+      "src/redux/features/*.ts",
+      "src/redux/features/pmp/*.ts",
+      "src/route/*.tsx",
+      "src/types/*.ts",
+      ".eslintrc.js"
+    ],
+    "exclude": [
+      "node_modules",
+      "public"
+   ]
+  }
