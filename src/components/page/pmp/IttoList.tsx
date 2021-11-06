@@ -8,15 +8,21 @@ import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { useHistory, withRouter } from "react-router";
 import { Nav } from "react-bootstrap";
+import { selectProcessListState } from "../../../redux/features/pmp/processListSlice";
 
 export const IttoList: React.FC = () => {
+  const processListState = useAppSelector(selectProcessListState);
   const ittoListState = useAppSelector(selectIttoListState);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   React.useEffect(() => {
-    void dispatch(ittoListAsync(ittoListState.processId));
-  }, [ittoListState.processId]);
+    void dispatch(ittoListAsync(
+      {
+        knowledgeAreaId:processListState.knowledgeArea.id,
+        processId:ittoListState.process.id
+      }));
+  }, [ittoListState.process]);
 
   return (
     <Container>
@@ -25,6 +31,7 @@ export const IttoList: React.FC = () => {
           <label onClick={() => history.goBack()}>戻る</label>
         </Nav.Link>
       </Nav>
+      <h2>{ittoListState.process.name}</h2>
       <Table>
         <thead>
           <tr>

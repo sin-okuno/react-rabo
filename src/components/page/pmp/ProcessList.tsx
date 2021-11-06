@@ -2,24 +2,24 @@ import * as React from "react";
 import { useAppSelector, useAppDispatch } from "../../../redux/hooks";
 import {
   processListAsync,
-  selectProcessList,
+  selectProcessListState,
 } from "../../../redux/features/pmp/processListSlice";
 import Table from "react-bootstrap/Table";
 import { Button, Container, Nav } from "react-bootstrap";
-import { setProcessId } from "../../../redux/features/pmp/ittoSlice";
+import { setProcess } from "../../../redux/features/pmp/ittoSlice";
 import { useHistory, withRouter } from "react-router-dom";
 
 export const ProcessList: React.FC = () => {
-  const processList = useAppSelector(selectProcessList);
+  const processList = useAppSelector(selectProcessListState   );
   const dispatch = useAppDispatch();
   const history = useHistory();
 
   React.useEffect(() => {
-    void dispatch(processListAsync(processList.knowledgeAreaId));
-  }, [processList.knowledgeAreaId]);
+    void dispatch(processListAsync(processList.knowledgeArea.id));
+  }, [processList.knowledgeArea]);
 
-  const onClickItto = (id: string) => {
-    dispatch(setProcessId(id));
+  const onClickItto = (param:{id:string,name:string}) => {
+    dispatch(setProcess(param));
     history.push("/pmp/IttoList");
   };
 
@@ -30,10 +30,10 @@ export const ProcessList: React.FC = () => {
           <label onClick={() => history.goBack()}>戻る</label>
         </Nav.Link>
       </Nav>
+      <h2>{processList.knowledgeArea.name}</h2>
       <Table>
         <thead>
           <tr>
-            <th>知識エリア名</th>
             <th>プロセス名称</th>
             <th>プロセス群</th>
             <th>ITTO</th>
@@ -49,8 +49,7 @@ export const ProcessList: React.FC = () => {
                 <td>
                   <Button
                     variant="info"
-                    onClick={() => onClickItto(process.id)}
-                  >
+                    onClick={() => onClickItto({id:process.id,name:process.processName})}>
                     ITTO
                   </Button>
                 </td>

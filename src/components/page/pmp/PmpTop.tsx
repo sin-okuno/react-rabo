@@ -6,7 +6,7 @@ import {
 } from "../../../redux/features/pmp/knowledgeAreaSlice";
 import { Container, ListGroup, Nav } from "react-bootstrap";
 import { Link, useHistory, withRouter } from "react-router-dom";
-import { setKnowledgeAreaId } from "../../../redux/features/pmp/processListSlice";
+import { setKnowledgeArea } from "../../../redux/features/pmp/processListSlice";
 
 export const PmpTop: React.FC = () => {
   const knowledgeAreaList = useAppSelector(selectknowledgeArea);
@@ -24,7 +24,7 @@ export const PmpTop: React.FC = () => {
           <label onClick={() => history.goBack()}>戻る</label>
         </Nav.Link>
       </Nav>
-      <ListGroup as="ul" numbered>
+      <ListGroup as="ul"  >
         {knowledgeAreaList?.map((knowledgeArea) => {
           return (
             <ListGroup.Item
@@ -33,7 +33,7 @@ export const PmpTop: React.FC = () => {
               <Link
                 className="fw-bold"
                 to="/pmp/ProcessList"
-                onClick={() => dispatch(setKnowledgeAreaId(knowledgeArea.id))}>
+                onClick={() => dispatch(setKnowledgeArea({id:knowledgeArea.id,name:knowledgeArea.knowledgeArea}))}>
                 {knowledgeArea.knowledgeArea}
               </Link>
             </ListGroup.Item>

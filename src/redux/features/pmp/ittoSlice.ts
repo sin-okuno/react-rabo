@@ -5,13 +5,13 @@ import axios from "axios";
 
 export interface ittoListState {
   value: Array<IttoType>;
-  processId: string;
+  process: {id:string,name:string};
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: ittoListState = {
   value: [],
-  processId:'',
+  process:{id:'',name:''},
   status: "idle",
 };
 
@@ -22,9 +22,9 @@ const initialState: ittoListState = {
 // typically used to make async requests.
 export const ittoListAsync = createAsyncThunk(
   "ittoList",
-  async (id:string) => 
+  async (param:{knowledgeAreaId:string,processId:string}) => 
   {
-    const response = await axios.get<string>(`/csv/pmp/itto/itto_${id}.csv`);
+    const response = await axios.get<string>(`/csv/pmp/itto/${param.knowledgeAreaId}/itto_${param.processId}.csv`);
     const dataArray:string[][] = [];
     const dataString = response.data.split("\n");
     const ittoList:Array<IttoType> = []
@@ -53,8 +53,8 @@ export const ittoListSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setProcessId: (state, action:PayloadAction<string>) => {
-      state.processId = action.payload;
+    setProcess: (state, action:PayloadAction<{id:string,name:string}>) => {
+      state.process = action.payload;
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -70,7 +70,7 @@ export const ittoListSlice = createSlice({
       });
   },
 });
-export const {setProcessId} = ittoListSlice.actions;
+export const {setProcess} = ittoListSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of

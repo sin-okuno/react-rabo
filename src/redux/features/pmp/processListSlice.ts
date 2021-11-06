@@ -5,13 +5,21 @@ import axios from "axios";
 
 export interface processListState {
   value: Array<ProcessType>;
-  knowledgeAreaId: string;
+  knowledgeArea: 
+  {
+    id:string;
+    name:string;
+  };
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: processListState = {
   value: [],
-  knowledgeAreaId:'',
+  knowledgeArea: 
+  {
+    id:'',
+    name:'',
+  },
   status: "idle",
 };
 
@@ -52,8 +60,8 @@ export const processListSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setKnowledgeAreaId: (state, action:PayloadAction<string>) => {
-      state.knowledgeAreaId = action.payload;
+    setKnowledgeArea: (state, action:PayloadAction<{id:string,name:string}>) => {
+      state.knowledgeArea = action.payload;
     },
   },
   
@@ -71,8 +79,8 @@ export const processListSlice = createSlice({
   },
 });
 
-export const {setKnowledgeAreaId} = processListSlice.actions;
+export const {setKnowledgeArea} = processListSlice.actions;
 
-export const selectProcessList = (state: RootState): processListState =>state.processList;
+export const selectProcessListState = (state: RootState): processListState =>state.processList;
 
 export default processListSlice.reducer;
